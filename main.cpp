@@ -10,104 +10,90 @@
 using namespace std;
 
 
-
-
+class Student{
+public:
+    int id;
+    char gender;
+    int yearOfBirth;
+    int *grades = 0;
+};
 
 
 int main(int argc, const char * argv[]) {
+    char proceed;
+    int grades;
+    int broj;
+    int studentId;
+    int gradeNumber;
+    int grade;
+    cout << "Enter number of students: " << endl;
+    cin >> broj;
+    Student *studentArray = 0;
+    studentArray = new Student[broj];
+    /*
+     Part 1
+     */
+    for (int i =0; i<broj; i++) {
+        cout << "Enter data about student " << i+1 << ":" << endl;
+        cout << "Enter the id for student " << i+1 << ":" << endl;
+        cin >> (studentArray+i)->id;
+        cout << "Enter the gender for student number " << i+1 << ":" << endl;
+        cin >> (studentArray+i)->gender;
+        cout << "Enter the year of birth for student number " << i+1 << ":" << endl;
+        cin >> (studentArray+i)->yearOfBirth;
+    }
+    /*
+     Part 2
+     */
+
     
-    std::cout << ">> Task 4 <<" << std::endl;
-    std::cout << std::endl;
-    int secNum = 0; int firstNum = 0; char c;
-    try {
-        // getting and validating input
-        std::cout << "Enter two integers and one character: " << std::endl;
-        
-        std::cout << "Enter first integer (height): " << std::endl;
-        std::cin >> secNum;
-        while (std::cin.fail() || (secNum < 0 || secNum == 0))
-        {
-            if (secNum == -1){
-                break;
+    do{
+        cout << "Enter existing student id in order to enter grades for that student: " << endl;
+        cout << "Enter 0 to skip this step and print student data or to quit program" << endl;
+        cin >> studentId;
+        if (studentId != 0) {
+        for (int j=0; j<broj; j++) {
+            if (studentId != j && studentId == (studentArray+j)->id) {
+                cout << "Enter number of grades for the student: " << endl;
+                cin >> gradeNumber;
+                (studentArray+j	)->grades = new int[gradeNumber];
+                for (int g=0; g<gradeNumber; g++) {
+                    cout << "Enter grade " << g+1 << ":" << endl;
+                    cout << "Grades are: --> 5,6,7,8,9,10 <--" << endl;
+                    cin >> grade;
+                    (studentArray+j)->grades[g] = grade;
+                }
             }
-            std::cin.clear(); // clear input buffer to restore cin to a usable state
-            std::cin.ignore(100, '\n'); // ignore last input
-            std::cout << "Invalid input. You need to enter a integer that is bigger than 0 or enter -1 to quit." << std::endl;
-            std::cout << "\nEnter first integer: " << std::endl;
-            std::cin >> secNum;
-            std::cout << std::endl;
         }
-        if (secNum == -1) {
-            std::exit(0);
         }
-        std::cout << "Please note that second integer has to be bigger than first you entered." << std::endl;
-        std::cout << "Enter second integer(width): " << std::endl;
-        std::cin.clear(); // clear input buffer to restore cin to a usable state
-        std::cin.ignore(100, '\n'); // ignore last input
-        std::cin >> firstNum;
-        while (std::cin.fail() || !(secNum < firstNum))
-        {
-            if (firstNum == -1){
-                break;
-            }
-            std::cin.clear(); // clear input buffer to restore cin to a usable state
-            std::cin.ignore(100, '\n'); // ignore last input
-            std::cout << "Invalid input. Second integer must be bigger than first and cannot be 0. To exit program enter -1" << std::endl;
-            std::cout << "Enter second integer(width): " << std::endl;
-            std::cin >> firstNum;
-            std::cout << std::endl;
+        else{
+            return 0;
         }
-        if (firstNum == -1) {
-            std::exit(0);
-        }
-        std::cin.clear(); // clear input buffer to restore cin to a usable state
-        std::cin.ignore(100, '\n'); // ignore last input
-        std::cout << "Enter character: " << std::endl;
-        std::cin >> c;
-        while (!isalpha(c))
-        {
-            if (c == 45){
-                break;
-            }
-            std::cin.clear(); // clear input buffer to restore cin to a usable state
-            std::cin.ignore(100, '\n'); // ignore last input
-            std::cout << "Invalid input. You need to enter a character or enter -1 to quit." << std::endl;
-            std::cout << "Enter character: " << std::endl;
-            std::cin >> c;
-            
-            std::cout << std::endl;
-            
-        }
-        if (c == 45) {
-            std::exit(0);
-        }
-        std::cout << "\n";
-        // printing the rectangle
-        std::cout << c;
-        for (int i = 0; i < firstNum - 2; i++)
-        {
-            std::cout << c;
-        }
-        std::cout << c <<"\n";
-        
-        for (int i = 0; i < secNum - 2; i++)
-        {
-            std::cout << c;
-            for (int j = 0; j < firstNum - 2; j++)
-            {
-                std::cout << " ";
-            }
-            std::cout << c << "\n";
-        }
-        
-        std::cout << c;
-        for (int i = 0; i < firstNum - 2; i++)
-        {
-            std::cout << c;
-        }
-        std::cout << c <<"\n";
+        cout << "To enter grades for another student with existing id please type 'y'" << endl;
+        cout << "Note: yes has to be case-sensitive, any other input will stop the program" << endl;
+        cin.clear();
+        cin >> proceed;
     }
-    catch(int e){
-        std::cout << "You must input a positive integer." << std::endl;
+    while (proceed == 'y');
+    
+    /*
+     Part 3
+     */
+    //Outputing Students information
+    for(int i=0; i<broj; i++){
+        cout << "Student number " << i+1 << " has id: " << (studentArray+i)->id << endl;
+        cout << "Student number " << i+1 << " has gender: " << (studentArray+i)->gender << endl;
+        cout << "Student number " << i+1 << " has year of birth: " << (studentArray+i)->yearOfBirth << endl;
+        cout << "Grades for student with id " << (studentArray+i)->id << "are:" <<endl;
+        grades = sizeof((studentArray+i)->grades);
+        for (int g=0; g<grades; g++) {
+            
+            cout << " " << (studentArray+i)->grades[g] << ",";
+        }
     }
-}
+    
+    //Delete pointer to an array its a good practice
+    delete []studentArray;
+    return 0;
+    }
+
