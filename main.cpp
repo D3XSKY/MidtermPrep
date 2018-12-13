@@ -20,6 +20,7 @@ public:
 
 
 int main(int argc, const char * argv[]) {
+    int *gradez;
     char proceed;
     int grades;
     int broj;
@@ -56,13 +57,15 @@ int main(int argc, const char * argv[]) {
             if (studentId != j && studentId == (studentArray+j)->id) {
                 cout << "Enter number of grades for the student: " << endl;
                 cin >> gradeNumber;
-                (studentArray+j	)->grades = new int[gradeNumber];
+                gradez = (studentArray+j)->grades;
+                gradez = new int[gradeNumber];
                 for (int g=0; g<gradeNumber; g++) {
                     cout << "Enter grade " << g+1 << ":" << endl;
                     cout << "Grades are: --> 5,6,7,8,9,10 <--" << endl;
                     cin >> grade;
-                    (studentArray+j)->grades[g] = grade;
+                    gradez[g] = grade;
                 }
+                (studentArray+j)->grades = gradez;
             }
         }
         }
@@ -90,6 +93,7 @@ int main(int argc, const char * argv[]) {
             
             cout << " " << (studentArray+i)->grades[g] << ",";
         }
+        cout << endl;
     }
     
     //Delete pointer to an array its a good practice
